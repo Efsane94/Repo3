@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuizMakerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="QuestionQuiz">
+    <Key>
+      <PropertyRef Name="QuestionQuizId" />
+    </Key>
+    <Property Name="QuestionQuizId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuizId" Type="Int32" Nullable="false" />
+    <Property Name="QuestionId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Question" Relationship="Self.const06" FromRole="QuestionQuiz" ToRole="Questions" />
+    <NavigationProperty Name="Quiz" Relationship="Self.const07" FromRole="QuestionQuiz" ToRole="Quiz" />
+  </EntityType>
+  <EntityType Name="Question">
+    <Key>
+      <PropertyRef Name="QuestionId" />
+    </Key>
+    <Property Name="QuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuestionTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AnswerA" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AnswerB" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AnswerC" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AnswerD" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="RightAnswer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="QuestionTypeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="QuestionQuizs" Relationship="Self.const06" FromRole="Questions" ToRole="QuestionQuiz" />
+    <NavigationProperty Name="QuestionType" Relationship="Self.const05" FromRole="Questions" ToRole="QuestionType" />
+  </EntityType>
+  <EntityType Name="QuestionType">
+    <Key>
+      <PropertyRef Name="TypeId" />
+    </Key>
+    <Property Name="TypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TypePoint" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Questions" Relationship="Self.const05" FromRole="QuestionType" ToRole="Questions" />
+  </EntityType>
+  <EntityType Name="Quiz">
+    <Key>
+      <PropertyRef Name="QuizId" />
+    </Key>
+    <Property Name="QuizId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="QuizName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="QuestionQuizs" Relationship="Self.const07" FromRole="Quiz" ToRole="QuestionQuiz" />
+    <NavigationProperty Name="UsersQuizs" Relationship="Self.const08" FromRole="Quiz" ToRole="UsersQuiz" />
+    <NavigationProperty Name="User" Relationship="Self.const09" FromRole="Quiz" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="UserLog">
+    <Key>
+      <PropertyRef Name="LogId" />
+    </Key>
+    <Property Name="LogId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="BeginDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="User" Relationship="Self.const03" FromRole="UserLogs" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserFullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserTypeId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Quizs" Relationship="Self.const09" FromRole="Users" ToRole="Quiz" />
+    <NavigationProperty Name="UserLogs" Relationship="Self.const03" FromRole="Users" ToRole="UserLogs" />
+    <NavigationProperty Name="UserType" Relationship="Self.const01" FromRole="Users" ToRole="UserType" />
+    <NavigationProperty Name="UserStatus" Relationship="Self.const02" FromRole="Users" ToRole="UserStatus" />
+    <NavigationProperty Name="UsersQuizs" Relationship="Self.const04" FromRole="Users" ToRole="UsersQuiz" />
+  </EntityType>
+  <EntityType Name="UsersQuiz">
+    <Key>
+      <PropertyRef Name="UserQuizId" />
+    </Key>
+    <Property Name="UserQuizId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="QuizId" Type="Int32" Nullable="false" />
+    <Property Name="QuizPoint" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Quiz" Relationship="Self.const08" FromRole="UsersQuiz" ToRole="Quiz" />
+    <NavigationProperty Name="User" Relationship="Self.const04" FromRole="UsersQuiz" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="UserStatu">
+    <Key>
+      <PropertyRef Name="StatusId" />
+    </Key>
+    <Property Name="StatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="StatusType" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.const02" FromRole="UserStatus" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="UserType">
+    <Key>
+      <PropertyRef Name="UserTypeId" />
+    </Key>
+    <Property Name="UserTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Users" Relationship="Self.const01" FromRole="UserType" ToRole="Users" />
+  </EntityType>
+  <Association Name="const06">
+    <End Role="Questions" Type="Self.Question" Multiplicity="1" />
+    <End Role="QuestionQuiz" Type="Self.QuestionQuiz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="QuestionId" />
+      </Principal>
+      <Dependent Role="QuestionQuiz">
+        <PropertyRef Name="QuestionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="const07">
+    <End Role="Quiz" Type="Self.Quiz" Multiplicity="1" />
+    <End Role="QuestionQuiz" Type="Self.QuestionQuiz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quiz">
+        <PropertyRef Name="QuizId" />
+      </Principal>
+      <Dependent Role="QuestionQuiz">
+        <PropertyRef Name="QuizId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="const05">
+    <End Role="QuestionType" Type="Self.QuestionType" Multiplicity="1" />
+    <End Role="Questions" Type="Self.Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuestionType">
+        <PropertyRef Name="TypeId" />
+      </Principal>
+      <Dependent Role="Questions">
+        <PropertyRef Name="QuestionTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="const08">
+    <End Role="Quiz" Type="Self.Quiz" Multiplicity="1" />
+    <End Role="UsersQuiz" Type="Self.UsersQuiz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quiz">
+        <PropertyRef Name="QuizId" />
+      </Principal>
+      <Dependent Role="UsersQuiz">
+        <PropertyRef Name="QuizId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="const09">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="Quiz" Type="Self.Quiz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Quiz">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="const03">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="UserLogs" Type="Self.UserLog" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserLogs">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="const01">
+    <End Role="UserType" Type="Self.UserType" Multiplicity="1" />
+    <End Role="Users" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserType">
+        <PropertyRef Name="UserTypeId" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="UserTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="const02">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="UserStatus" Type="Self.UserStatu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserStatus">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="const04">
+    <End Role="Users" Type="Self.User" Multiplicity="1" />
+    <End Role="UsersQuiz" Type="Self.UsersQuiz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UsersQuiz">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QuizMakerEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="QuestionQuizs" EntityType="Self.QuestionQuiz" />
+    <EntitySet Name="Questions" EntityType="Self.Question" />
+    <EntitySet Name="QuestionTypes" EntityType="Self.QuestionType" />
+    <EntitySet Name="Quizs" EntityType="Self.Quiz" />
+    <EntitySet Name="UserLogs" EntityType="Self.UserLog" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="UsersQuizs" EntityType="Self.UsersQuiz" />
+    <EntitySet Name="UserStatus" EntityType="Self.UserStatu" />
+    <EntitySet Name="UserTypes" EntityType="Self.UserType" />
+    <AssociationSet Name="const06" Association="Self.const06">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="QuestionQuiz" EntitySet="QuestionQuizs" />
+    </AssociationSet>
+    <AssociationSet Name="const07" Association="Self.const07">
+      <End Role="Quiz" EntitySet="Quizs" />
+      <End Role="QuestionQuiz" EntitySet="QuestionQuizs" />
+    </AssociationSet>
+    <AssociationSet Name="const05" Association="Self.const05">
+      <End Role="QuestionType" EntitySet="QuestionTypes" />
+      <End Role="Questions" EntitySet="Questions" />
+    </AssociationSet>
+    <AssociationSet Name="const08" Association="Self.const08">
+      <End Role="Quiz" EntitySet="Quizs" />
+      <End Role="UsersQuiz" EntitySet="UsersQuizs" />
+    </AssociationSet>
+    <AssociationSet Name="const09" Association="Self.const09">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Quiz" EntitySet="Quizs" />
+    </AssociationSet>
+    <AssociationSet Name="const03" Association="Self.const03">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserLogs" EntitySet="UserLogs" />
+    </AssociationSet>
+    <AssociationSet Name="const01" Association="Self.const01">
+      <End Role="UserType" EntitySet="UserTypes" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="const02" Association="Self.const02">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UserStatus" EntitySet="UserStatus" />
+    </AssociationSet>
+    <AssociationSet Name="const04" Association="Self.const04">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="UsersQuiz" EntitySet="UsersQuizs" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
